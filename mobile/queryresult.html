@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+		<title>查询结果</title>
+		<link href="../resource/css/common.css" rel="stylesheet" />
+		<script src="../resource/js/jquery-2.2.0.js"></script>
+	</head>
+	<style>
+		#carInformation {
+			width: 94%;
+			background: white;
+			margin-left: 3%;
+			margin-top: 20px;
+			zoom: 1;
+			overflow: auto;
+			padding: 10px 0;
+		}
+		
+		#driverInformation {
+			width: 94%;
+			background: white;
+			margin-left: 3%;
+			margin-top: 20px;
+			zoom: 1;
+			overflow: auto;
+			padding: 10px 0;
+		}
+		
+		#stationInformation {
+			width: 94%;
+			background: white;
+			margin-left: 3%;
+			margin-top: 20px;
+			zoom: 1;
+			overflow: auto;
+			padding: 10px 0;
+		}
+		
+		#driverImg {
+			border-radius: 50%;
+			margin: auto;
+			display: block;
+		}
+		
+		#commentBtn {
+			width: 45%;
+			height: 50px;
+			line-height: 50px;
+			background: #f79030;
+			color: white;
+			margin-left: 3%;
+			text-align: center;
+			float: left;
+		}
+		
+		#complainBtn {
+			width: 45%;
+			height: 50px;
+			line-height: 50px;
+			background: #787878;
+			color: white;
+			margin-right: 3%;
+			text-align: center;
+			float: right;
+		}
+	</style>
+
+	<body class="bc-f4">
+		<div id="stationInformation">
+			<img src="../resource/img/station.jpg" width="60px" height="60px" id="driverImg" />
+			<div class="h-40x l-h-40x text-center b-b-1c m-lr-10x m-b-10x">始发站信息</div>
+			<div class=" w-100 l-h-20x h-20x">
+				<span class="fl-l m-l-10x">站场名称</span>
+				<span class="fl-r m-r-10x w-m180x sl text-right">省汽车客运站</span>
+			</div>
+			<div class=" w-100 l-h-20x h-20x">
+				<span class="fl-l m-l-10x">班次线路</span>
+				<span class="fl-r m-r-10x w-m180x sl text-right">广州-东莞</span>
+			</div>
+			<div class=" w-100 l-h-20x h-20x">
+				<span class="fl-l m-l-10x">经营范围</span>
+				<span class="fl-r m-r-10x w-m180x sl text-right">市际班车客运</span>
+			</div>
+		</div>
+
+		<div id="carInformation">
+			<img src="../resource/img/bus.jpg" width="60px" height="60px" id="driverImg" />
+			<div class="h-40x l-h-40x text-center b-b-1c m-lr-10x m-b-10x">客运车辆信息</div>
+			<div class=" w-100 l-h-20x h-20x">
+				<span class="fl-l m-l-10x">车牌号码</span>
+				<span class="fl-r m-r-10x w-m180x sl text-right">粤A96900</span>
+			</div>
+			<div class=" w-100 l-h-20x h-20x">
+				<span class="fl-l m-l-10x">业务名称号</span>
+				<span class="fl-r m-r-10x w-m180x sl text-right">广州市长途汽车运输公司</span>
+			</div>
+			<div class=" w-100 l-h-20x h-20x">
+				<span class="fl-l m-l-10x">经营范围</span>
+				<span class="fl-r m-r-10x w-m180x sl text-right">市际班车客运</span>
+			</div>
+			<div class=" w-100 l-h-20x h-20x">
+				<span class="fl-l m-l-10x">标志牌号码</span>
+				<span class="fl-r m-r-10x w-m180x sl text-right">4123456789122</span>
+			</div>
+			<div class=" w-100 l-h-20x h-20x">
+				<span class="fl-l m-l-10x">车辆类型</span>
+				<span class="fl-r m-r-10x">大型客车</span>
+			</div>
+			<div class=" w-100 l-h-20x h-20x">
+				<span class="fl-l m-l-10x">座位数</span>
+				<span class="fl-r m-r-10x">53</span>
+			</div>
+			<div class=" w-100 l-h-20x h-20x">
+				<span class="fl-l m-l-10x">技术等级</span>
+				<span class="fl-r m-r-10x w-m180x sl text-right">A</span>
+			</div>
+			<div class=" w-100 l-h-20x h-20x">
+				<span class="fl-l m-l-10x">车辆装备等级</span>
+				<span class="fl-r m-r-10x">高一级</span>
+			</div>
+			<div class=" w-100 l-h-20x h-20x">
+				<span class="fl-l m-l-10x">道路运输证号</span>
+				<span class="fl-r m-r-10x w-m180x sl text-right">2809941</span>
+			</div>
+			<div class=" w-100 l-h-20x h-20x">
+				<span class="fl-l m-l-10x">审验有效期</span>
+				<span class="fl-r m-r-10x w-m180x sl text-right">2018/03/31</span>
+			</div>
+			<div class=" w-100 l-h-20x h-20x">
+				<span class="fl-l m-l-10x">运营状态</span>
+				<span class="fl-r m-r-10x">营运</span>
+			</div>
+			<div class=" w-100 l-h-20x h-20x">
+				<span class="fl-l m-l-10x">基层交管部门</span>
+				<span class="fl-r m-r-10x w-m180x sl text-right">广州市交通运输管理局</span>
+			</div>
+		</div>
+
+		<div id="driverInformation">
+			<img src="../resource/img/driver.jpg" width="60px" height="60px" id="driverImg" />
+			<div class="h-40x l-h-40x text-center b-b-1c m-lr-10x m-b-10x">驾驶员信息</div>
+			<div class=" w-100 l-h-20x h-20x">
+				<span class="fl-l m-l-10x">姓名</span>
+				<span class="fl-r m-r-10x">张兵</span>
+			</div>
+			<div class=" w-100 l-h-20x h-20x">
+				<span class="fl-l m-l-10x">性别</span>
+				<span class="fl-r m-r-10x">男</span>
+			</div>
+			<div class=" w-100 l-h-20x h-20x">
+				<span class="fl-l m-l-10x">从业资格证</span>
+				<span class="fl-r m-r-10x w-m180x sl text-right">x12312312414</span>
+			</div>
+			<div class=" w-100 l-h-20x h-20x">
+				<span class="fl-l m-l-10x">资格类型</span>
+				<span class="fl-r m-r-10x w-m180x sl text-right">A1</span>
+			</div>
+			<div class=" w-100 l-h-20x h-20x">
+				<span class="fl-l m-l-10x">从业资格证有效期</span>
+				<span class="fl-r m-r-10x w-m180x sl text-right">2018/06/31</span>
+			</div>
+			<div class=" w-100 l-h-20x h-20x">
+				<span class="fl-l m-l-10x">发证机构</span>
+				<span class="fl-r m-r-10x w-m180x sl text-right">广州市交通运输管理局</span>
+			</div>
+			<div class=" w-100 l-h-20x h-20x">
+				<span class="fl-l m-l-10x">状态</span>
+				<span class="fl-r m-r-10x w-m180x sl text-right">在岗</span>
+			</div>
+			<div class=" w-100 l-h-20x h-20x">
+				<span class="fl-l m-l-10x">服务单位名称</span>
+				<span class="fl-r m-r-10x w-m180x sl text-right">广州市长途汽车运输公司</span>
+			</div>
+			<div class=" w-100 l-h-20x h-20x">
+				<span class="fl-l m-l-10x">安全教育培训记录</span>
+				<span class="fl-r m-r-10x w-m180x sl text-right">暂无</span>
+			</div>
+		</div>
+		<div class="h-20x"></div>
+		<div class="overflow-a">
+			<div id="commentBtn" onclick="comment_btn()">
+				<span>我要评价</span>
+			</div>
+			<div id="complainBtn" onclick="complain_btn()">
+				<span>投诉</span>
+			</div>
+		</div>
+
+		<div class="h-20x"></div>
+	</body>
+	<script>
+		function comment_btn() {
+			location.href = "comment.html";
+		}
+
+		function complain_btn() {
+			location.href = "complain.html";
+		}
+	</script>
+
+</html>

@@ -1,0 +1,313 @@
+<!doctype html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>订单记录</title>
+    <link rel="stylesheet" type="text/css" href="/addons/ticketorder/template/css/bus.css?v={$_W['config']['version']['beta']}">
+    <link rel="stylesheet" type="text/css" href="/addons/ticketorder/template/css/all.css?v={$_W['config']['version']['beta']}">
+    <link rel="stylesheet" type="text/css" href="/addons/ticketorder/template/css/app.css?v={$_W['config']['version']['beta']}">
+    <script src="/addons/ticketorder/template/js/jquery.js?v={$_W['config']['version']['beta']}"></script>
+    <style>
+    	.status {
+    		display : none;
+    	}
+    	.completed .status3,.completed .status4,.completed .status9{
+    		display : block;
+            border-radius: 10px;
+    	}
+    	.backlog .status1,.backlog .status6,.backlog .status10{
+    		display : block;
+    	}
+        .no-order{
+            display: block;
+        }
+        .hide{
+            display: none!important;
+        }
+        .completed  .show1{
+            display: none;
+        }
+        .backlog  .show2{
+            display: none;
+
+        }
+        .completed  .hide{
+            display: none;
+        }
+        .backlog  .hide{
+            display: none;
+
+        }
+
+        .p-ra{
+            position: relative;
+        }
+        .t-2x{
+            top: 2px;
+        }
+        .m-l-10x{
+            margin-left: 10px;
+        }
+
+        .no-display{
+            display: none;
+        }
+        .w-m200x{
+            max-width: 200px;
+        }
+        .sl{
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
+        }
+        .fl-l{
+        	float: left;
+        }
+        .fl-r{
+        	float: right;
+        }
+
+    </style>
+
+    <?php if($style && in_array($style, $_W['config']['setting']['style'])){?>
+    <link rel="stylesheet" type="text/css"
+          href="/addons/ticketorder/template/css/style-{$style}.css?v={$_W['config']['version']['beta']}">
+    <?php }else{ ?>
+    <link rel="stylesheet" type="text/css"
+          href="/addons/ticketorder/template/css/style-red.css?v={$_W['config']['version']['beta']}">
+    <?php } ?>
+    	<script>
+			var _hmt = _hmt || [];
+			_hmt.push(['_setAccount', "{$_W['config']['baidu']['statisticsid']}"]);
+			_hmt.push(['_setAutoPageview', false]);
+			_hmt.push(['_trackPageview', '/orderlist']);
+			(function() {
+			  var hm = document.createElement("script");
+			  hm.src = "https://hm.baidu.com/hm.js?{$_W['config']['baidu']['statisticsid']}";
+			  var s = document.getElementsByTagName("script")[0]; 
+			  s.parentNode.insertBefore(hm, s);
+			})();
+		</script>
+    
+</head>
+
+<body class="bg2 <?php echo $backlog?'backlog':'completed'; ?>">
+<div class="bg-white  pos-rlt">
+	{if $pageData['webType']!='app'}
+    <div class="hbox" style="height: 36px;">
+        <a class="col v-middle w-50x" onclick="_hmt.push(['_trackEvent','ML_Cancel', 'Click', '我的订单-返回']);"  href="javascript:location.href='{php echo $this->createExtMobileUrl('promotionalinfo','pages', array( 'pages' => 'me','linksource' => $linksource,'sourceparams' => $sourceparams,'style' => $style,'scenetype' => $scenetype,'scenesn' => $scenesn),true)}'">
+            <div class="back-icon">
+                {if $style == 'red'||empty($style)}
+                <img src="/addons/ticketorder/template/img/icon-8-4/fhui-02-red.svg"  style="height:20px;margin: 8px 0 0 19px;" />
+
+
+                {else}
+                <img  src="/addons/ticketorder/template/img/icon-8-4/fhui-02-{$style}.svg" style="height:20px; margin: 8px 0 0 19px;"/>
+
+                {/if}
+
+            </div>
+        </a>
+        <div class="col t2-2 text-center v-bottom">
+            订单记录
+        </div>
+        <div class="col w-50x"></div>
+    </div>
+    {/if}
+    <div class="h-45x hbox">
+        <div class="col v-middle text-right">
+            <div class="select-type-left <?php echo $backlog?'t3-3':'bg6 t3-7'; ?> "  id="completedOrder" onclick="_hmt.push(['_trackEvent','ML_Completed', 'Click', '我的订单-已完成']);">
+                已完成
+            </div>
+        </div>
+        <div class="col v-middle text-left">
+            <div class="select-type-right <?php echo $backlog?'bg6 t3-7':'t3-3'; ?> "  id="backlogOrder" onclick="_hmt.push(['_trackEvent','ML_Uncompleted', 'Click', '我的订单-未完成']);">
+                未完成
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="p-sm bg2">
+    <?php 
+		$weekarray=array("周日","周一","周二","周三","周四","周五","周六");
+		$count1 = "";
+		$count2 = "";
+		foreach($rows as $k=>$r ){
+    		if($r['OrderStatus']=='3' || $r['OrderStatus']=='4'){
+                $count1 = "show1";
+				$url = $this->createMobileUrl('pages', array( 'pages' => 'orderdetail','linksource' => $linksource,'sourceparams' => $sourceparams,'style' => $style,'scenetype' => $scenetype,'scenesn' => $scenesn,'orderNo' => $r['OrderNo']));
+			}else if($r['OrderStatus']=='9'){
+                $count1 = "show1";
+				$url = $this->createMobileUrl('pages', array( 'pages' => 'orderfail','linksource' => $linksource,'sourceparams' => $sourceparams,'style' => $style,'scenetype' => $scenetype,'scenesn' => $scenesn,'orderNo' => $r['OrderNo']));
+			}else if($r['OrderStatus']=='1'){
+                $count2 = "show2";
+				$url = $this->createMobileUrl('pages', array( 'pages' => 'orderdetailbacklog','linksource' => $linksource,'sourceparams' => $sourceparams,'style' => $style,'scenetype' => $scenetype,'scenesn' => $scenesn,'orderNo' => $r['OrderNo']));
+			}else if($r['OrderStatus']=='6'){
+                $count2 = "show2";
+				$url = $this->createMobileUrl('pages', array( 'pages' => 'orderfail','linksource' => $linksource,'sourceparams' => $sourceparams,'style' => $style,'scenetype' => $scenetype,'scenesn' => $scenesn,'orderNo' => $r['OrderNo']));
+			}else if($r['OrderStatus']=='10'){
+                $count2 = "show2";
+				$url = $this->createMobileUrl('pages', array( 'pages' => 'orderdetail','linksource' => $linksource,'sourceparams' => $sourceparams,'style' => $style,'scenetype' => $scenetype,'scenesn' => $scenesn,'orderNo' => $r['OrderNo']));
+			}else{
+                $count2 = "show2";
+				continue;
+			}
+
+            if($_GPC['m'] == 'ticketorder' && $r['LineType'] == 1)
+            {
+                $url = str_replace('m=ticketorder','m=ruyue',$url);
+            }else if($_GPC['m'] == 'ruyue' && $r['LineType'] == 2)
+            {
+                $url = str_replace('m=ruyue','m=ticketorder',$url);
+            }
+
+            if($r['OrderStatus']=='1')
+            {
+                $url = str_replace('m=ticketorder','m=ruyue',$url);
+            }
+
+            if($r['orderType']=='scenichotel')
+            {
+                $url = str_replace('m=ticketorder','m=travel',$url);
+                $url = str_replace('m=ruyue','m=travel',$url);
+            }
+
+			$weekday = $weekarray[date("w",strtotime($r['SchDate']))];
+			$schtime = "";
+			if($r["SchMode"] == '1'){//定点
+				$schtime = $r["SchStationTime"];
+			}else if($r["SchMode"] == '2'){//流水
+				$schtime = '全天'.$r["FirstSchTime"].'-'.$r["LastSchTime"];
+			}
+			
+    ?>
+    <div class="bg-white m-t-sm pos-rlt status status{$r['OrderStatus']} ">
+        <a href="{$url}">
+            <div class="p-sm b-ticket r-t-5x pos-rlt">
+                <div class="">
+                   <div class="t2-2 v-middle  col w-m200x sl fl-l">
+                        {$r['SchStartNodeName']}<img src="/addons/ticketorder/template/img/ic_@3x-43.png" class="w-10x m-l-xs m-b-3x"> {$r['SchEndNodeName']}
+                        	
+                    </div>
+                    <div class="col  t3-2  fl-l">
+                       <img src="/addons/ticketorder/template/img/travelicon.svg" class="h-15x m-l-10x p-ra t-2x {$r['LineTypeClass']}">
+                       <img src="/web/resource/img/zhongchouicon.png" class="h-15x m-l-10x p-ra t-2x {$r['GroupTypeClass']}">
+                    </div>
+                    <div class="col w-30x t3-2 text-right fl-r">
+                        {$r['TicketCount']}张
+                    </div>
+                </div>
+                <div class="hbox">
+                    <div class="t3-2 v-middle l-h-1 col">
+                        	订单号：{$r['OrderNo']}
+                    </div>
+                    <div class="col w-40x t3-2 text-right">
+                        	￥{$r['OrderAmout']}
+                    </div>
+                </div>
+                <div class="w-10x h-10x rounded b-ticket-round-left"></div>
+                <div class="w-10x h-10x rounded b-ticket-round-right"></div>
+            </div>
+            <div class="p-sm r-b-5x">
+                <div class="hbox">
+                    <div class="t3-3 v-middle l-h-1 col w-30x">
+                        发车
+                    </div>
+                    <div class="col t3-7 text-right">
+                        {$r['SchDate']}&nbsp;{$schtime}（{$weekday}）
+                    </div>
+                </div>
+                <div class="hbox">
+                    <div class="t3-3 v-middle l-h-1 col w-50x">
+                        上车点
+                    </div>
+                    <div class="col t3-2 text-right">
+                         {$r['SchStationName']}
+                    </div>
+                </div>
+                <div class="hbox">
+                    <div class="t3-3 v-middle l-h-1 col w-50x">
+                        下车点
+                    </div>
+                    <div class="col t3-2 text-right">
+                         {$r['SchDstNodeName']}
+                    </div>
+                </div>
+                <div class="hbox">
+                    <div class="t3-3 v-middle l-h-1 col w-50x">
+                        线路
+                    </div>
+                    <div class="col t3-2 text-right">
+                        {$r['SchLineName']}
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+     <?php } ?>
+    <?php
+          $isshow = "";
+        if($count1 !== ''){
+            $isshow = $count1;
+        }
+        if($count2 !== ''){
+            $isshow = $count2;
+        }
+        if($count2 !== '' && $count1 !== ''){
+            $isshow = 'hide';
+        }
+
+    ?>
+
+
+
+    <div id="no-network" class="no-order <?php  echo $isshow; ?>" >
+        <img src="/addons/ticketorder/template/img/no-order.svg" style="width: 90px;margin: auto;display: block;margin-top: 60px;" />
+        <div class="m-t-10x text-center fc999 m-b-10x" style="padding-top: 20px;padding-bottom: 10px;">
+            还没有任何订单记录
+        </div>
+        <div class="text-center w-100px h-30x l-h-30x b-s-1 b-rd-15 m-t-10x m-a fcblue c-red c-orange" style="border: 1px solid #EAEAEA;border-radius: 15px;  margin: 0 auto;  width: 100px;" onclick="_hmt.push(['_trackEvent','ML_GoPur', 'Click', '我的订单-前往购票']);" id="gobuytickets">
+            前往买票
+        </div>
+    </div>
+</div>
+<script>
+	$(function() {
+		actionInit();
+	});
+
+	function actionInit(){
+		$("#backlogOrder").click(function(){
+			$("body").addClass("backlog").removeClass("completed");
+			$(this).addClass("bg6 t3-7").removeClass("t3-3");
+			$("#completedOrder").removeClass("bg6 t3-7").addClass("t3-3");
+		});
+		$("#completedOrder").click(function(){
+			$("body").addClass("completed").removeClass("backlog");
+			$(this).addClass("bg6 t3-7").removeClass("t3-3");
+			$("#backlogOrder").removeClass("bg6 t3-7").addClass("t3-3");
+		});
+	}
+</script> 
+</body>
+</html>
+<script>
+    $('#gobuytickets').click(function()
+    {
+        if("{$pageData['webType']}"=="app")
+        {
+            location.href = "{php echo $this->createExtMobileUrl('ticketorder','pages', array( 'pages' => 'indexee','linksource' => $linksource,'sourceparams' => $newsourceparams,'style' => $style,'scenetype' => $scenetype,'scenesn' => $scenesn),true)}";
+        }else
+        {
+            if('{$indexPage}' == 'IndexeeCustom')
+            {
+                location.href="{php echo $this->createExtMobileUrl('ticketorder','pages', array( 'pages' => 'indexee','linksource' => $linksource,'sourceparams' => $sourceparams,'style' => $style,'scenetype' => $scenetype,'scenesn' => $scenesn),true)}";
+                return false;
+            }
+            location.href="{php echo $this->createMobileUrl('pages', array( 'pages' => 'indexee','linksource' => $linksource,'sourceparams' => $sourceparams,'style' => $style,'scenetype' => $scenetype,'scenesn' => $scenesn),true)}";
+        }
+    });
+</script>

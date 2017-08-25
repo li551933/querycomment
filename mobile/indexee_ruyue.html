@@ -1,0 +1,1692 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+		<meta name="format-detection" content="telephone=no"/>
+		<title>如约城际</title>
+		<link rel="stylesheet" type="text/css" href="/web/resource/css/lib/mask.css?v={$_W['config']['version']['beta']}">
+		<link rel="stylesheet" href="/web/resource/css/lib/jquery.simpleDate.css?v={$_W['config']['version']['beta']}" />
+		<link href="/web/resource/css/lib/new_ui.css?v={$_W['config']['version']['beta']}" rel="stylesheet">
+		<link href="/web/resource/css/lib/swiper.min.css" rel="stylesheet">
+		<link href="/web/resource/css/lib/common.html5.css" rel="stylesheet">
+		<link href="/web/resource/css/lib/jquery.horizonscroll.css?v={$_W['config']['version']['beta']}" rel="stylesheet">
+		<script src="/web/resource/js/lib/jquery-2.2.0.js"></script>
+		<script type="text/javascript" src="/web/resource/js/lib/iscroll.js"></script>
+		<script type="text/javascript" src="/web/resource/js/lib/dateUtil.js"></script>
+		<script type="text/javascript" src="/web/resource/js/lib/jquery.simpleDate.js?v={$_W['config']['version']['beta']}"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=RZZ2gObry82Y2BSzZ1xzMhfm"></script>
+	    <script src="/web/resource/js/lib/fastclick.js?v={$_W['config']['version']['beta']}"></script>
+	    <script type="text/javascript" src="/web/resource/js/lib/jquery.charfirst.pinyin.js"></script>
+		<script type="text/javascript" src="/web/resource/js/lib/pinyin-sort.js"></script>
+		<script type="text/javascript" src="/web/resource/js/lib/swiper-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/web/resource/js/lib/iscroll5.js"></script>
+		<script type="text/javascript" src="/web/resource/js/lib/jquery.horizonscroll.js?v={$_W['config']['version']['beta']}"></script>
+	    <script>
+			var _hmt = _hmt || [];
+			_hmt.push(['_setAccount', "{$_W['config']['baidu']['statisticsid']}"]);
+			_hmt.push(['_setAutoPageview', false]);
+			_hmt.push(['_trackPageview', '/indexee']);
+			(function() {
+			  var hm = document.createElement("script");
+			  hm.src = "https://hm.baidu.com/hm.js?{$_W['config']['baidu']['statisticsid']}";
+			  var s = document.getElementsByTagName("script")[0]; 
+			  s.parentNode.insertBefore(hm, s);
+			})();
+		</script>
+	</head>
+	<style>
+	a,img,button,input,textarea,div
+	{-webkit-tap-highlight-color:rgba(255,255,255,0);}
+		#p-city {
+			background: white;
+			position: fixed;
+			top: 0;
+			z-index: 100;
+			width: 100%;
+			height: 100%;
+			overflow: auto;
+		}
+		#search {
+			background: #f4f4f4;
+			position: fixed;
+			top: 0;
+			z-index: 100;
+			width: 100%;
+			height: 100%;
+			overflow: auto;
+		}
+		
+		#c-area {
+			position: fixed;
+			top: 0;
+			height: 100%;
+			width: 100%;
+			z-index: 200;
+			background: white;
+			overflow: auto;
+		}
+	
+		#search-map {
+			width: 100%;
+			height: 70%;
+			overflow: auto;
+			margin: 0;
+			font-family: "微软雅黑";
+			position: absolute;
+			z-index: 1;
+		}
+		
+		#r-result {
+			width: 100%;
+			font-size: 12px;
+			overflow: auto;
+			position: absolute;
+			z-index: 2;
+			top: 70%;
+		}
+		#entryOfDownload {
+			position: fixed;
+			bottom: 51px;
+			z-index: 15;
+			width: 100%;
+			height: 60px;
+			font-size: 15px;
+			background: -webkit-linear-gradient(-45deg, rgba(0, 0, 76, 0.4), rgba(32, 0, 0, 0.4));
+			background: -moz-linear-gradient(-45deg, rgba(0, 0, 76, 0.4), rgba(32, 0, 0, 0.4));
+			background: linear-gradient(-45deg, rgba(0, 0, 76, 0.4), rgba(32, 0, 0, 0.4));
+			overflow: hidden;
+		}
+		
+		#entryOfDownload .e-col {
+			float: left;
+			height: 60px;
+		}
+		
+		#entryOfDownload .e-col:last-child {
+			float: right;
+		}
+		
+		#entryOfDownload .e-col1 img {
+			position: relative;
+			top: 7px;
+			margin: 0 10px 0 20px;
+			width: 46px;
+		}
+		
+		#entryOfDownload .e-col2 div:first-child {
+			line-height: 15px;
+			margin-top: 14px;
+			color: #fff;
+		}
+		
+		#entryOfDownload .e-col2 div:last-child {
+			line-height: 12px;
+			margin-top: 5px;
+			font-size: 12px;
+			color: #ccc;
+		}
+		
+		#entryOfDownload .e-col3 a {
+			display: block;
+			margin: 16px 10px;
+			line-height: 28px;
+			width: 85px;
+			color: #f79030;
+			background: #fff;
+			text-align: center;
+			text-decoration: none;
+			-webkit-border-radius: 14px;
+			-moz-border-radius: 14px;
+			border-radius: 14px;
+		}
+		
+		#e-close {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 18px;
+		}
+		
+		.dpn {
+			display: none;
+		}
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		.qdk{
+			background: #f79030;
+			color: white;
+			border-radius: 15px;
+			width: 40px;
+			text-align: center;
+			height: 20px;
+			line-height: 20px;
+			margin-top: 15px;
+		}
+		.w-50{
+			width: 49.8%;
+		}
+		.b-r-1{
+			border-right: 1px solid #eaeaea;
+		}
+		.b-rd-10{
+			border-radius: 10px;
+		}
+		.m-t-50x{
+			margin-top: 50px;
+		}
+		#maskdiv {
+			position: fixed;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.4);
+			z-index: 1010;
+			display: none;
+		}
+		.bottom_select{
+			height: 50px;
+			position: fixed;
+			line-height: 50px;
+			text-align: center;
+			bottom: 0;
+			background: #f4f4f4;
+			width: 100%;
+			z-index: 500;
+		}
+		.black-mask{
+			position: fixed;
+			top: 0;
+			height: 100%;
+			width: 100%;
+			background: rgba(0,0,0,0.5);
+			z-index: 400;
+		}
+		#select_province_list{
+			position: fixed;
+			bottom: 50px;
+			background: white;
+			z-index: 500;
+			width: 100%;
+			max-height: 300px;
+			overflow: auto;
+		}
+		#select_area_list{
+			position: fixed;
+			bottom: 50px;
+			background: white;
+			z-index: 500;
+			width: 100%;
+			max-height: 300px;
+			overflow: auto;
+		}
+		.initials{
+		    position: fixed;
+		    top: 47px;
+		    right: 0px;
+		    height: 100%;
+		    width: 15px;
+		    padding-right: 10px;
+		    text-align: center;
+		    font-size: 12px;
+		    z-index: 99;
+		}	
+		.sort_letter{
+		    height: 20px;
+		    line-height: 20px;
+		    padding-left: 10px;
+		    color:#787878;
+		    font-size: 14px;
+		    background: #f4f4f4;
+		    border-bottom:1px solid #ddd;
+		}
+		.outboxclass{
+			max-height: 125px;
+			width: 80%;
+			position: fixed;
+			margin-left: 10%;
+			top: 50%;
+			margin-top: -60px;
+			border-radius: 5px;
+			background: white;
+			z-index: 1000;
+			overflow: auto;
+			
+		}
+		#outputBox{
+			display: none;
+		}
+		#letter{
+		    width: 100px;
+		    height: 100px;
+		    border-radius: 5px;
+		    font-size: 75px;
+		    color: #555;
+		    text-align: center;
+		    line-height: 100px;
+		    background: rgba(145,145,145,0.6);
+		    position: fixed;
+		    left: 50%;
+		    top: 50%;
+		    margin:-50px 0px 0px -50px;
+		    z-index:1009;
+		    display: none;
+		}
+		#letter img{
+		    width: 50px;
+		    height: 50px;
+		    float: left;
+		    margin:25px 0px 0px 25px;
+		}
+		.w-25{
+			width: 25%;
+		}
+		.h-25x{
+			height: 25px;
+		}
+		.l-h-25x{
+			line-height: 25px;
+		}
+		.p-5x{
+			padding: 5px;
+		}
+		.swiper-pagination-bullet-active {
+		    opacity: 1;
+		    background: #fff;
+		}
+		#top_tap{
+			position: fixed;
+			top: 0;
+			width: 100%;
+			z-index: 10;
+			box-shadow: 0 0 5px #ccc;
+		}
+		#hotCitys{
+			padding: 10px;
+			overflow: auto;
+			
+		}
+		.hotcity{
+			border: 1px solid #f79030;
+			color: #f79030;
+			padding: 2px 10px;
+			height: 20px;
+			line-height: 20px;
+			float: left;
+			border-radius:15px; 
+			margin: 5px;
+		}
+	</style>
+
+	<body class="bc-f4" onload="hide_loading()">
+	    <div id="loading">
+			<div class="maskdiv-white"></div>
+			<img class="rotate" src="/web/resource/img/orangeloading.svg" />
+		</div>
+	    <input type="hidden" id="exactStatus" value="{$exactStatus}">
+	    <input type="hidden" id="modetype" value="intercity">
+	    <input type="hidden" id="direction" value="2">
+	    <input type="hidden" id="transid" value="{$transid}">
+	    <input type="hidden" id="depot" value="{$depot}">
+	    <input type="hidden" id="citycode" value="{$citycode}">
+	    <input type="hidden" id="province" value="{$province}">
+	    <input type="hidden" id="SchStationName" value="{$SchStationName}">
+		<!--百度地图搜索路径-->
+		<div id="search-map-main" style="position: absolute;height: 100%;width:100%;overflow: auto;background: white;z-index: 1000000010;display: none;">
+			<div class="w-100 h-40x bc-white" style="position:absolute;z-index: 3;">
+				<div class="l-h-40x p-a w-20 " style="z-index: 100;" onclick="goback()">
+					<img src="/web/resource/img/serviceleft.png" class="p-r m-l-10x" height="15px" style="top: 2px;" />
+				</div>
+				<div class="p-a h-40x w-100 text-center l-h-40x  fs-14"> 路线导航</div>
+			</div>
+			<div id="search-map"></div>
+			<div id="r-result"></div>
+		</div>
+		<!--有未支付订单-->
+		<div id="maskdiv"></div>
+		<div class="t_check  bc-white p-a b-rd-10 no-display" style="top: 50%;left: 50%;margin-left: -40%;margin-top: -100px;z-index: 1100;height: 150px;width: 80%;">
+				<div class="text-center  m-t-50x">你有未完成订单</div>
+				<div class="h-50x l-h-50x p-a b-0 w-100 b-t-1">
+					<div class="btn-check w-50 fl-l text-center" onclick="close_tips()">
+						忽略
+					</div>
+					<div class="w-50 fl-l text-center b-r-1 fcorange" onclick="location.href='{php echo $this->createMobileUrl('pages', array( 'pages' => 'orderlist','linksource' => $linksource,'sourceparams' => $sourceparams,'style' => $style,'scenetype' => $scenetype,'scenesn' => $scenesn,'backlog' =>'1'),true)}';">
+						去看看
+					</div>
+				</div>
+			</div>
+		
+		
+		
+		<!--省-市列表-->
+		<div id="p-city" class="no-display">
+			<div class="h-40x l-h-40x">
+				<span class="fl-l m-l-10x fcorange"  onclick="_hmt.push(['_trackEvent',  'Cancel', 'Click', '出发地/目的地-取消']);goback()">取消</span>
+				<div class="search-input" onclick="showsearch()"><img src="/web/resource/img/Search_icon.svg" class="h-15x m-l-10x m-r-10x p-r t-2x"><span>城市名称/拼音/首字母</span></div>
+
+
+				<div id="provincelist" class="w-60x">
+					<ul id="provincelistul">
+					</ul>
+				</div>
+				<div id="province_temp"  class="no-display">
+					<div class="h-50x bc-white l-h-50x text-center p-default b-b-1" onclick="chose_provincelist(this)" data-pcode="{ProvinceCode}">
+						{ProvinceName}
+					</div>
+				</div>
+			</div>
+			<div id="hotCityBox" class="">
+				<div class="h-35x bc-f4 l-h-35x b-tb-1">
+					<span class="fs-14 m-l-10x fc999">热门下车点</span>
+				</div>
+				<div id="hotCitys">
+					{loop $hotStations $k $v}
+					<div class="hotcity"  onclick="choseHotCity(this)"><span data-code="{$v['stationCode']}">{$v['stationName']}</span></div>
+					{/loop}
+				</div>
+			</div>
+			
+
+			<div class="h-35x bc-f4 l-h-35x b-tb-1">
+				<span class="fs-14 m-l-10x fc999">选择城市</span>
+			</div>
+			<div id="city">
+
+			</div>
+			<div class="h-50x"></div>
+			<div id="city_temp" class="no-display">
+				<div class="h-50x l-h-50x b-b-1 bc-white" onclick="chose_city(this)">
+					<span class="clist m-l-10x fc333" data-code="{CityCode}">{CityName}</span>
+				</div>
+			</div>
+			<div id="searchstation_temp" class="no-display">
+				<div class="h-50x  b-b-1 bc-white" onclick="searchqd(this)">
+					<div class="h-30x l-h-30x m-l-10x fc333" data-code="{code}">{name}</div>
+					<div class="h-20x  m-l-10x fc999 fs-14">{region}</div>
+				</div>
+			</div>
+			
+			<div  class="select_place no-display">
+					<div class="black-mask" onclick="hide_select()"></div>
+					<div id="select_province_list">
+					</div>
+			</div>
+			
+			<div class="bottom_select" onclick="open_bottom_select()">
+				<span id="provincename" class="m-r-10x"></span><img src="/web/resource/img/arr.png" height="10px" />
+			</div>
+			
+		</div>
+		<!--市-区列表-->
+		<div id="c-area" class="no-display">
+			<div class="h-40x l-h-40x b-b-1">
+				<div class="p-r w-30 fl-l" onclick="_hmt.push(['_trackEvent',  'City_List', 'Click', '出发地/目的地-返回城市列表']);goback()">
+					<img src="/web/resource/img/serviceleft.png" class="p-r m-l-10x t-2x m-r-10x" height="15px" /><span class="fcorange" id="cityName">深圳</span>
+				</div>
+				<div class="p-r w-40 fl-l text-center" >
+					<span class="fc333">选择下车点</span>
+				</div>
+			</div>
+			<div id="letter" ></div>
+			<div class="initials">
+				<ul>
+					<li>↑</li>
+				</ul>
+			</div>
+			
+			<div id="station" class="sort_box">
+					
+			</div>
+			
+			<div id="station_temp" class="no-display">
+				<div class="h-50x l-h-50x b-b-1 bc-white {real}" onclick="on_station(this)">
+					<img src="/web/resource/img/location02.svg" class="h-20x  m-l-10x p-r t-2x no-display"/><span class="clist m-l-10x fc333 num_name" data-code="{StationCode}">{StationName}</span>
+				</div>
+			</div>
+				
+			<div class="h-50x"></div>
+			
+			<div id="area_temp"  class="no-display">
+					<div class="h-50x bc-white l-h-50x text-center a-default b-b-1" onclick="on_area(this)" data-dcode="{DistrictCode}">
+						{DistrictName}
+					</div>
+			</div>
+			<div  class="select_place no-display">
+					<div class="black-mask" onclick="hide_select()"></div>
+					<div id="select_area_list">
+					</div>
+			</div>
+			<div class="bottom_select" onclick="open_bottom_select()">
+				<span id="areaName" class="m-r-10x">全部区域</span><img src="/web/resource/img/arr.png" height="10px" />
+			</div>
+		</div>
+		
+		
+		
+		<div id="search" class="no-display">
+			<div class="h-40x l-h-40x bc-white m-b-10x">
+				<span class="fl-l m-l-10x fcorange" onclick="goback()">取消</span>
+				<input id="searchinput" class="search-input-all" placeholder="城市名称/首字母/拼音"  oninput="searchcitybefore(this)"/>
+			</div>
+			<div id="search-result">
+				
+			</div>
+			<div id="searchnoresult" class="no-display">
+				<img src="/web/resource/img/searchnoresult.png" class="m-a h-100x dis-b m-b-10x"/>
+				<div  class="w-100 text-center fc999 m-t-10x fs-14">抱歉，没有搜到相关内容</div>
+			</div>
+			
+		</div>
+		
+		<div id="outputBox">
+			<div class="black-mask" onclick="hide_outbox()"></div>
+			<div class="outboxclass">
+				
+			</div>
+			<div id="outbox_temp" class="no-display">
+				<div  class="h-40x b-b-1 l-h-40x " onclick="chose_box(this)">
+					<span class="m-l-10x" data-code="{StationCode}">{StationName}</span>
+					<img src="{Src}" class="boximg fl-r m-r-10x p-r t-10x" height="15px" />
+				</div>
+			</div>
+			
+		</div>
+		
+		
+		
+		
+		<!--遮罩层-->
+		<div class="mask"></div>
+		<!--位置详情-->
+		<div id="stationxqlist"></div>
+		<div id="stationxq_temp" class="no-display">
+			<div class="station-all">
+				<div class="station-information">
+					<div class="station-container">
+						<div style="height: 10px;"></div>
+						<div class="show-img">
+							<img class="station-img" id="stationpic1" src="{StationPic1}" style="margin-bottom: 4px;">
+							<img class="station-img" id="stationpic2" src="{StationPic2}">
+						</div>
+						<div class="station-name">
+							<strong id="stationname">{StationName}</strong>
+						</div>
+						<div class="station-summary" id="stationinformation">
+							{StationDesp}
+						</div>
+						<div class="station-map">
+							<a id="stationxy" latitude="{Latitude}" longitude="{Longitude}" stationname="{StationName}" onclick="trainsitmap()">
+								到这里去>
+							</a>
+						</div>
+						<div style="height: 10px;"></div>
+					</div>
+				</div>
+				<div class="station-back" onclick="closemodal()">
+					返回
+				</div>
+			</div>
+		</div>
+		<!--结构主体-->
+		<div id="main-container">
+			<!--  <div id="top_tap" class="h-25x l-h-25x bc-white p-5x fs-14 {if !empty($depot)}dpn{/if}">
+				<div class="w-25 text-center fl-l t-active" mode="tjkx" data-type="intercity">汽车票</div>
+				<div class="w-25 text-center fl-l" onclick="location.href='{$url['custom']}'">定制线路</div>
+				<div class="w-25 text-center fl-l" onclick="location.href='{$url['charteredbus']}'">我要包车</div>
+				<div class="w-25 text-center fl-l" onclick="location.href='/app/index.php?c=platform_home&i=1&t=1&sourceparams=*linetype*tour_*jumppage*tourline_&scenetype=1&style=orange'">旅游线路</div>
+			</div>
+			<div class="h-25x {if !empty($depot)}dpn{/if}"></div>-->
+			<div id="hs-wrapper" class="h-25x {if !empty($depot)}dpn{/if}"></div>
+			<div class="swiper-container">
+			  <div class="swiper-wrapper">
+				{loop $banners $banner}
+			    	<div class="swiper-slide">
+			    		<a href="{$banner['link']}">
+			    			<img src="{$banner['image']}" width="100%" height="150px" onclick="_hmt.push(['_trackEvent',  'Home_Banner', 'Click', 'banner-点击']);"/>
+			    		</a>
+			    	</div>
+				{/loop}
+			  </div>
+			   <div class="swiper-pagination"></div>
+			</div>
+			<div class="p-lr-10x m-t-10x m-b-10x" style="margin-top: -45px;z-index: 10;position: relative;">
+				<div class=" b-a-1 b-rd-5 bc-white p-lr-15x"> 
+					<!--<div class="h-40x l-h-40x b-b-1 fs-14 fc666 m-b-2x " {if !empty($depot)}style="display:none"{/if}>
+						<div mode="tjkx" class="w-33 text-center fl-l t-active" onclick="selectmode(this)" data-type="intercity">汽车票</div>
+						<div mode="kybx" class="w-33 text-center fl-l " onclick="location.href='{$url['custom']}'" data-type="traffic">定制线路</div>
+						<div mode="xyzx" class="w-33 text-center fl-l" onclick="location.href='{$url['charteredbus']}'" data-type="campus">我要包车</div>
+					</div>-->
+					<!--城际快线选项卡-->
+					<div id="tjkx" class="p-r modechange">
+						<div class="h-50x b-b-1 l-h-50x startMode" onclick="_hmt.push(['_trackEvent',  'Query', 'Click', 'city']);chose_province(this,'city',1)">
+							<img src="/web/resource/img/sy.svg" height="20px" class="p-r m-r-10x t-5x" />
+							<span class="fc999 notnull" id="tjkx-up">出发城市</span>
+						</div>
+						<div class="h-50x  l-h-50x endMode" onclick="_hmt.push(['_trackEvent',  'Query', 'Click', 'station']);chose_province(this,'area',2)">
+							<img src="/web/resource/img/sy_1.svg" height="20px" class="p-r m-r-10x t-5x" />
+							<span class="fc999 notnull" id="tjkx-down">到达目的地</span>
+						</div>
+						<img src="/web/resource/img/notchange.svg" height="40px" class="p-a r-0 t-30x" />
+					</div>
+					
+				</div>
+					
+			</div>
+			<div class="p-lr-10x m-b-10x">
+				<div class="h-40x  l-h-40x  bc-white b-rd-5 p-lr-15x b-a-1" id="dateselect">
+					<img src="/web/resource/img/dateorange.svg" class="w-15x m-r-10x">
+					<span id="schdate"></span><span class="p-l-sm" id="schweek">今天</span>
+				</div>
+				<input type="hidden" id="dateStr" />
+			</div>
+			
+			<div id="queryBtn" class="h-35x text-center l-h-35x fcfff bc-orange w-200x m-a b-rd-20 "  onclick="_hmt.push(['_trackEvent',  'Home_Query', 'Click', '首页-查询按钮']);">
+				查询
+			</div>
+			<img src="/web/resource/img/history01.svg" width="140px" class="m-10-a dis-b " />
+			 <?php foreach($historyQuerycity as $k=>$r ){ ?>
+			<div class="h-35x text-center l-h-35x b-s-1  w-200x  b-rd-20  m-10-a" onclick="_hmt.push(['_trackEvent',  'Home_History_List', 'Click', '首页-历史记录']);histroyrecord(this)">
+				<div class="sl w-40 text-center fl-l fs-14 fc666" data-histroystart="<?php echo $r->scitycode; ?>"><?php echo $r->scityname; ?></div>
+				<div class="w-20 text-center fl-l "><img src="/web/resource/img/signright01.svg" width="20px" class="p-r "></div>
+				<div class="sl w-40 text-center fl-r fs-14 fc666" data-histroyend="<?php echo $r->ecitycode; ?>"><?php echo $r->ecityname; ?></div>
+			</div>
+              <?php } ?>
+			
+              		<div id="entryOfDownload">
+			<img id="e-close" src="/addons/ticketorder/template/img/ic_close2.svg" />
+			<div class="e-col e-col1">
+				<img src="/addons/ticketorder/template/img/ic_logo.svg" />
+			</div>
+			<div class="e-col e-col2">
+				<div>如约城际</div>
+				<div>约巴士 好出行</div>
+			</div>
+			<div class="e-col e-col3">
+				<a id="download" onclick="_hmt.push(['_trackEvent',  'Software', 'Download', 'ruyue']);" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.xunxintech.ruyue.coach.client&ckey=CK1351701866511">下载APP</a>
+			</div>
+		</div>
+		
+		<div class="h-50x"></div>
+		<div class="bbox h-50x">
+			<div class="col text-center v-middle ">
+				<img class=" h-20x" src="/web/resource/img/icon-04-orange.svg" />
+				<div class="fcorange fs-12">我要出行</div>
+			</div>
+			<!--<div class="col text-center v-middle p-r discount-activity"  onclick="_hmt.push(['_trackEvent',  'My_Discount', 'Click', '我-优惠券']);location.href='{php echo $this->createExtMobileUrl('promotionalinfo','pages', array( 'pages' => 'newest','linksource' => $linksource,'sourceparams' => $sourceparams,'style' => $style,'scenetype' => $scenetype,'scenesn' => $scenesn),true)}';">
+				{if $isread == false }
+				<i class="discount-activity-isread"></i>
+				{/if}
+				<img class=" h-20x" src="/web/resource/img/icon-095.svg" />
+				<div class="fc999 fs-12">我要福利</div>
+				<div class="red-pont dpn"></div>
+			</div>-->
+			<div class="col text-center v-middle discount-activity" onclick="_hmt.push(['_trackEvent',  'My_MLs', 'Click', '我-我的订单']);location.href='{php echo $this->createExtMobileUrl('promotionalinfo','pages', array( 'pages' => 'me','linksource' => $linksource,'sourceparams' => $sourceparams,'style' => $style,'scenetype' => $scenetype,'scenesn' => $scenesn),true)}';">
+				{if $isread_msg == false}
+				<i class="discount-activity-isread"></i>
+				{/if}
+				<img class="h-20x" src="/web/resource/img/icon-05.svg" />
+				<div class="fc999 fs-12">我的订单</div>
+			</div>
+		</div>
+
+		</div>
+	</body>
+	<script>
+		var station_id = "";
+		var changeca = 0;
+		var indexM = 0;
+		var map = "";
+		var province="";
+		var config=eval("("+'{$config}'+")");
+		
+		//var cityStrs = '{"Success": true,"Errcode": 0,"Errmsg": "","data": {"Rows": [{"ProvinceName": "广东","ProvinceCode": "440000","Citys": [{"CityName": "增城","CityPinYin": "ZC","CityCode": "00004","ProvinceName": "广东","CityLongitude": "113.2759952545166","CityLatitude": "23.117055306224895"},{"CityName": "广州","CityPinYin": "GZ","CityCode": "00002","ProvinceName": "广东","CityLongitude": "113.2759952545166","CityLatitude": "23.117055306224895"},{"CityName": "从化","CityPinYin": "CH","CityCode": "00003","ProvinceName": "广东","CityLongitude": "113.2759952545166","CityLatitude": "23.117055306224895"}]},{"ProvinceName": "海南","ProvinceCode": "440001","Citys": [{"CityName": "海口","CityPinYin": "ZC","CityCode": "00004","ProvinceName": "海南","CityLongitude": "113.2759952545166","CityLatitude": "23.117055306224895"},{"CityName": "三亚","CityPinYin": "GZ","CityCode": "00002","ProvinceName": "海南","CityLongitude": "113.2759952545166","CityLatitude": "23.117055306224895"},{"CityName": "三亚2","CityPinYin": "CH","CityCode": "00003","ProvinceName": "海南","CityLongitude": "113.2759952545166","CityLatitude": "23.117055306224895"}]}]}}';
+		//var citystr = eval("(" + cityStrs + ")");
+
+		//var areaStrs = '{"Success":true,"Errcode":0,"Errmsg":"","data":{"Rows":[{"DistrictName":"天河区","DistrictCode":"S0001","Stations":[{"StationName":" 火车站","StationCode":" S0002","StationPinYin":"xx","StationDesp":"xx","StationPic1":"http://xxx","StationPic2":"http://xxx","Longitude":"110.11","Latitude":"23.33","Phone1":"133xx","Phone2":"133xx"},{"StationName":" 飞机站","StationCode":" S0002","StationPinYin":"xx","StationDesp":"xx","StationPic1":"http://xxx","StationPic2":"http://xxx","Longitude":"110.11","Latitude":"23.33","Phone1":"133xx","Phone2":"133xx"}]},{"DistrictName":"越秀区","DistrictCode":"S0003","Stations":[{"StationName":" 五羊站","StationCode":" S0003","StationPinYin":"xx","StationDesp":"xx","StationPic1":"http://xxx","StationPic2":"http://xxx","Longitude":"110.11","Latitude":"23.33","Phone1":"133xx","Phone2":"133xx"},{"StationName":" 杨箕站","StationCode":" S0004","StationPinYin":"xx","StationDesp":"xx","StationPic1":"http://xxx","StationPic2":"http://xxx","Longitude":"110.11","Latitude":"23.33","Phone1":"133xx","Phone2":"133xx"}]}]}}';
+
+		//var areastr = eval("(" + areaStrs + ")");
+
+		//var stationStrs = '{"Success":true,"Errcode":0,"Errmsg":"","data":{"StationName":" 白田岗","StationCode":" S0002","StationPinYin":"xx","StationDesp":"xx","StationPic1":"1","StationPic2":"1","Longitude":"110.11","Latitude":"23.33","Phone1":"1","Phone2":"1","ProvinceName":"xxx","CityName":"xxx","CityCode":"xxx"}}';
+		//var stationstr = eval("(" + stationStrs + ")");
+        var areastr="";
+        var citystr="";
+        var searchstationstr="";
+        //var datestr='{"resultCode":0,"resultMessage":"","result":[{"date":"20170107","status":"2","price":"12"},{"date":"20170106","status":"1","price":""},{"date":"20170108","status":"1","price":""},{"date":"20170109","status":"1","price":""},{"date":"20170110","status":"1","price":""}]}';
+        //var datestrs = eval("(" + datestr + ")");
+		//		创建省列表
+		var currentLat=0;
+		var currentLon=0;
+		function createprovince(rows) {
+			$("#select_province_list").html("");
+			var temp = $("#province_temp").html();
+			for(var k in rows) {
+				var s = rows[k];
+				var vars = new Array();
+				vars["ProvinceName"] = s['ProvinceName'];
+				vars["ProvinceCode"] = s['ProvinceCode'];
+				var elm = replaceVars(temp, vars);
+				$("#select_province_list").append(elm);
+			}
+		}
+
+		function replaceVars(text, params) {
+			for(p in params) {
+				text = text.replace(new RegExp("\{" + p + "?\}", "g"), params[p]);
+			}
+			return text;
+		}
+		function listenClose() {
+	        $('#e-close').on('click', function() {
+	            $('#entryOfDownload').addClass('dpn');
+	        })
+        }
+		
+		var region={};
+		$(document).ready(function() {
+			//createprovince(cityStrs);
+			//getLocation();
+			var city='{$citys}';
+			region=JSON.parse(city);
+			listenClose();
+			//startcitycode();
+	    	init_chose_box();
+			exact();
+			var mySwiper = new Swiper('.swiper-container', {
+				autoplay: 5000,//可选选项，自动滑动
+				pagination : '.swiper-pagination',
+			})
+			
+		})
+		
+		function exact(){
+			/*var type = $(".t-active").attr("data-type");
+			var ExactStatus=type.firstUpperCase()+"ExactStatus";
+			var exactStatus=config['data'][ExactStatus];
+			$("#exactStatus").val(exactStatus);*/
+		}
+		
+		function startcitycode(){
+			var city=$("#citycode").val();
+        	if(city!=''){
+        		var id=$(".t-active").attr("mode");
+				$("#"+id+"-up").text($("#SchStationName").val());
+				$("#"+id+"-up").addClass("fc333");
+				$("#"+id+"-up").attr('stationcode',city);
+				province=$("#province").val().replace("省","").trim();
+        	}
+		}
+
+		//		选择城市 
+		function chose_province(obj, type,direction) {
+			station_id = $(obj).children('span').attr("id");
+			if(direction==1){//出发
+				var depot=$("#depot").val();
+				$("#hotCityBox").hide();
+			    if(depot!=''){
+			    	//init_chose_box();
+			    	$("#outputBox").show();
+			    	return;
+			    }
+			}else{
+				$("#hotCityBox").show();
+			}
+			$("#direction").val(direction);
+			$("#p-city").removeClass("no-display");
+			location.href = "#p-city";
+			show_loading();
+			$("#city").html("");
+			setTimeout("hide_loading()",500);
+			var data;
+			if(type == "area") {
+				changeca = 1; //选择精确到上下车点
+				var id = $(".t-active").attr("mode");
+				var originCode = $("#" + id + "-up").attr("stationcode");
+				$(".search-input span").text("目的地/拼音/首字母");
+				data={'op':'QueryEndCity','Query':'','OriginCode':originCode};
+			} else if(type == "city") {
+				changeca = 0; //选择精确到区
+				$(".search-input span").text("城市名称/拼音/首字母");
+				data={'op':'QueryStartCity','Query':''};
+			}
+			/////
+			post(data,function(city){
+				citystr=city;
+			var temp = $("#city_temp").html();
+			createprovince(citystr.data.Rows);
+			if(province==''){//定位失败
+				province=$("#select_province_list").children().first().text().replace("省","").trim();
+			}
+			var s="";
+			for(var k in citystr.data.Rows) {
+				var t =citystr.data.Rows[k].ProvinceName.replace("省","").trim();
+				if(t==province){
+					 s=citystr.data.Rows[k];
+				}
+			}
+			$("#provincename").text(s['ProvinceName']);
+			var vars = new Array();
+			var strz = "";
+			for(var j in s.Citys) {
+				var t = s.Citys[j];
+				vars["CityName"] = t['CityName'];
+				vars["CityCode"] = t['CityCode'];
+				var elm = replaceVars(temp, vars);
+				strz += elm;
+			}
+			$("#city").html(strz);
+			hide_loading();
+			$("#select_province_list").children().first().addClass("fcorange");
+			//$("#p-city").removeClass("no-display");
+			//location.href = "#p-city";
+			});
+		}
+		
+
+		//		选择城市-区
+		function chose_city(obj) {
+			if($(obj).children('span').text()=="定位中"){
+				return;
+			}else{
+				for(var i=0;i<$(".clist").length;i++){
+				var temptext=$(".clist")[i].innerText.replace("市","");
+				var locationtext=$("#autolocation").text().replace("市","");
+				if(temptext==locationtext){
+					var code=$(".clist")[i].getAttribute("data-code")
+					$("#autolocation").attr("data-code",code);
+				}
+			}
+
+			$("#select_area_list").html("");	
+			$("#area").html('');
+			$("#station").html("");
+			show_loading();
+			setTimeout("hide_loading()",500);
+			if($("#depot").val()!=''){//客运站市到市  $("#exactStatus").val()=='1028'
+				//qdcity(obj);
+				//return;
+			}
+			if(changeca == 1) {		
+				var CityCode=$(obj).find("span").attr("data-code");
+				var id=$(".t-active").attr("mode");
+				var OriginCode=$("#"+id+"-up").attr('stationcode');
+				var data={'op':'QueryEndStation','CityCode':CityCode,'OriginCode':OriginCode};
+				areastr='';
+				post(data,function(area){
+				areastr=area;
+				var temp = $("#area_temp").html();
+				var allarea = new Array();
+				allarea["DistrictName"] = "全部区域"
+				allarea["DistrictCode"] = "all"
+				var elm = replaceVars(temp, allarea);
+				$("#select_area_list").append(elm);
+				for(var k in areastr.data.Rows) {
+					var s = areastr.data.Rows[k];
+					if(s['DistrictCode']==""){
+						continue;
+					}
+					var vars = new Array();
+					vars["DistrictName"] = s['DistrictName'];
+					vars["DistrictCode"] = s['DistrictCode'];
+					var elm = replaceVars(temp, vars);
+					$("#select_area_list").append(elm);
+				}
+				var temp = $("#station_temp").html();
+				
+				for(var q in areastr.data.Rows){
+					var z = areastr.data.Rows[q];
+					var vars = new Array();		
+					var strz = "";
+					if(z&&z.Stations){
+					for(var o in z.Stations) {
+						var t = z.Stations[o];
+						if(t['StationCode']==""){
+							continue;
+						}
+						vars["StationName"] = t['StationName'];
+						vars["StationCode"] = t['StationCode'];
+						vars['real']="sort_list"
+						var elm = replaceVars(temp, vars);
+						strz += elm;
+					}}
+					$("#station").append(strz);
+				}
+				hide_loading();
+				});
+				$("#areaName").text("全部区域");
+			} else {
+				qdcity(obj);
+				return;
+				$("#area").removeClass("w-30");
+				$("#station").faddClass("no-display");
+				$("#chose-station").addClass("no-display");
+				var CityCode=$(obj).find("span").attr("data-code");
+				var data={'op':'QueryStartStation','CityCode':CityCode};
+				areastr='';
+				post(data,function(area){
+				areastr=area;
+				var temp = $("#area_temp").html();
+				for(var k in areastr.data.Rows) {
+					var s = areastr.data.Rows[k];
+					if(s['DistrictCode']==""){
+						continue;
+					}
+					var vars = new Array();
+					vars["DistrictName"] = s['DistrictName'];
+					vars["DistrictCode"] = s['DistrictCode'];
+					var elm = replaceVars(temp, vars);
+					$("#area").append(elm);
+					$("#area .g-area").first().addClass("area-active");
+					$("#area .g-area .gou").first().removeClass("no-display");
+				}
+				hide_loading();
+				});
+			}
+			var cityname = $(obj).children('span').text();
+			$("#cityName").text(cityname);
+			$("#c-area").removeClass("no-display");
+			initials();
+			$("#select_area_list").children().first().addClass("fcorange");
+			location.href = "#c-area";
+			}
+		}
+
+		function open_bottom_select(){
+			$(".select_place").toggle();
+		}
+
+		//		选择区-点
+//		function chose_area(obj) {
+//			$("#station").html("");
+//			$("#area .g-area").removeClass("area-active");
+//			$("#area .g-area .gou").addClass("no-display");
+//			$(obj).addClass("area-active");
+//			$(".area-active .gou").removeClass("no-display");
+//			var temp = $("#station_temp").html();
+//			var temp2 = $("#stationarea_temp").html();
+//			for(var k in areastr.data.Rows) {
+//				var s = areastr.data.Rows[k];
+//				if($(obj).children().attr("data-dcode") == s['DistrictCode']) {
+//					var vars = new Array();
+//					var vars2 = new Array();
+//					var strz = "";
+//					vars2["DistrictName"] = s['DistrictName'];
+//					vars2["DistrictCode"] = s['DistrictCode'];
+//					var elm2 = replaceVars(temp2, vars2);
+//					strz=strz+elm2;
+//					for(var j in s.Stations) {
+//						var t = s.Stations[j];
+//						vars["StationName"] = t['StationName'];
+//						vars["StationCode"] = t['StationCode'];
+//						var elm = replaceVars(temp, vars);
+//						strz += elm;
+//					}
+//					$("#station").html(strz);
+//				}
+//			}
+//		}
+
+
+
+
+		function init_chose_box(){
+			var depot=$("#depot").val();
+			if(depot==''){
+				return;
+			}
+			var temp=$("#outbox_temp").html();
+			var vars=new Array();
+			var strz = "";
+		    var str='{$depots}';
+			var g=JSON.parse(str);
+			var companycode="{$terminal}";
+			var depot=null;
+			var src=["/addons/ticketorder/template/img/ic_@3x-65.png","/addons/ticketorder/template/img/orange82@3x.png"];
+			for(var i in g){
+				var t=g[i];
+				vars["StationName"] = t['StationName'];
+				vars["StationCode"] = t['StationCode'];
+				if(t['CompanyCode']==companycode){
+					depot=t;
+					vars["Src"]=src[1];
+				}else{
+					vars["Src"]=src[0];
+				}
+				var elm = replaceVars(temp, vars);
+				strz += elm;
+				if(t['CompanyCode']==companycode){
+					depot=t;
+					vars["Src"]="/addons/ticketorder/template/img/orange82@3x.png";
+				}
+			}
+			$(".outboxclass").html(strz);
+			
+			if(depot!=null){
+				var id="tjkx";
+				$("#"+id+"-up").text(depot['StationName']);
+				$("#"+id+"-up").addClass("fc333");
+				$("#"+id+"-up").attr('stationcode',depot['StationCode']);
+			}
+			
+		}
+
+
+
+		function chose_area(obj) {
+			$("#area .g-area").removeClass("area-active");
+			$(obj).addClass("area-active");
+			var m=$(obj).children().eq(0).attr("data-dcode");
+			var num=document.getElementById('d'+m).offsetTop;
+			$("#station").scrollTop(num-41);
+		}
+
+		//		选择上下车点
+		function chose_station(obj) {
+			$("#station div").removeClass("station-active");
+			$("#station .place").removeClass("station-active");
+			$(obj).children('div').addClass("station-active");
+			$(obj).parent().children().eq(1).addClass("station-active");
+		}
+
+		function qd() {
+			if(changeca == 0) {
+				var stationname = $(".area-active").text().trim();
+				var stationcode = $(".area-active").children().attr("data-dcode").trim();
+				$("#" + station_id).text(stationname);
+				$("#" + station_id).attr("stationcode", stationcode);
+				$("#" + station_id).addClass("fc333");
+				$("#p-city").addClass("no-display");
+				$("#c-area").addClass("no-display");
+				$("#search").hide();
+				location.href = "#";
+
+			} else {
+				var stationname = $(".station-active").parent().children('span').eq(0).text().trim();
+				var stationcode = $(".station-active").parent().children().eq(0).children('span').attr("data-scode").trim();
+				$("#" + station_id).text(stationname);
+				$("#" + station_id).attr("stationcode", stationcode);
+				$("#" + station_id).addClass("fc333");
+				$("#p-city").addClass("no-display");
+				$("#c-area").addClass("no-display");
+				$("#search").hide();
+				location.href = "#";
+			}
+		}
+		
+		function qdcity(input) {
+				var stationname = $(input).find("span").text().trim();
+				var stationcode = $(input).find("span").attr("data-code");
+				$("#" + station_id).text(stationname);
+				$("#" + station_id).attr("stationcode", stationcode);
+				$("#" + station_id).addClass("fc333");
+				$("#p-city").addClass("no-display");
+				$("#c-area").addClass("no-display");
+				$("#search").hide();
+				location.href = "#";
+		}
+
+		function goback() {
+			window.history.go(-1);
+		}
+		var regid = setInterval("reg()", 100);
+		//		判断返回事件
+		function reg() {
+			if(location.hash == "#p-city") {
+				$("#c-area").addClass("no-display");
+				$("#search").hide();
+				$("#search-map-main").hide();
+			} else if(location.hash == "#c-area") {
+				$("#search-map-main").hide();
+			} else if(location.hash == "") {
+				$("#p-city").addClass("no-display");
+			}else if(location.hash == "#search") {
+				$("#c-area").addClass("no-display");
+			}
+		}
+
+		//		日历日期选择
+		$(function() {
+			var isExist = false;
+			var scrollRefreshDateObj;
+			$("#schdate").text(new Date().parseStr('YYYY年MM月DD日')).attr("data-datetime",parseInt(new Date().getTime()/1000));
+			$("#dateStr").val(new Date().parseStr('YYYYMMDD'));
+			$('#dateselect').click(function() {
+				
+				var flag=true;
+				$(".notnull").each(function() {
+					var val = $.trim($(this).attr('stationcode'));
+					if (val == '') {
+						flag = false;
+					}
+				});
+				if(!flag){
+					alert("下车点不能为空，请选择下车点");
+					return;
+				}
+				
+				if('object' == typeof(scrollRefreshDateObj)) {
+					isExist = true;
+				}
+				var id=$(".t-active").attr("mode");
+				var startCode=$("#"+id+"-up").attr('stationcode');
+				var dstCode=$("#"+id+"-down").attr('stationcode');
+				var data={'op':'QuerySaleinfo','StartNodeCode':startCode,'DstNodeCode':dstCode};
+				var depot=$("#depot").val()
+				if(depot){
+					//data['startCodeType']=6;
+					//data['StartNodeCode']=depot;
+				}
+				post(data,function(datestrs){
+				scrollRefreshDateObj = $('body').scrollRefreshDate({
+					enableDays: 14,
+					callback: getDate,
+					isNewObjEveryTime: false,
+					theme: '#f79030',
+					ishidden: true,
+					dtitle:'选择出发日期',
+					datestrs:datestrs
+				});
+				});
+
+				if(isExist) {
+					//				scrollRefreshDateObj.setOneDateOn(new Date('2016-07-29'));
+				}
+				
+			})
+			
+			
+
+			//			获取时间跳转链接
+			function getDate(date) {
+				var now = new Date(parseInt(date) * 1000);
+				$("#dateStr").val(now.parseStr('YYYYMMDD'));
+				$("#schdate").text(now.parseStr('YYYY年MM月DD日')).attr("data-datetime",now.getTime()/1000);
+				$("#schweek").text("周"+checkweek(now.getDay()));
+				
+			}
+			
+			
+			$("#queryBtn").click(function(){
+				var flag=true;
+				$(".notnull").each(function() {
+					var val = $.trim($(this).attr('stationcode'));
+					if (val == '') {
+						flag = false;
+					}
+				});
+				if(!flag){
+					chose_province($(".endMode"),'area',2)
+					return;
+				}
+				var id = $(".t-active").attr("mode");
+				var startCity = $("#" + id + "-up").attr("stationcode");
+				var endCity = $("#" + id + "-down").attr("stationcode");
+				var startCityName = $("#" + id + "-up").text().trim();
+				var endCityName = $("#" + id + "-down").text().trim();
+				var dateStr = $("#dateStr").val();
+				var queryUrl = "{php echo $this->createMobileUrl('pages', array( 'pages' => 'line5','style' => $style,'linksource' => $linksource,'sourceparams' => $sourceparams,'scenetype' => $scenetype,'scenesn' => $scenesn),true)}";
+				if(queryUrl.indexOf("?") > 0){
+		    		queryUrl += "&";
+		    	}else{
+		    		queryUrl += "?";
+		    	}
+				queryUrl += "StartNodeCode=" + startCity + "&DstNodeCode=" + endCity + "&SchDate=" + dateStr + "&startCityN=" + startCityName + "&endCityN=" + endCityName+"&lat="+currentLat+"&lng="+currentLon;
+				//alert(queryUrl);
+				location.href = queryUrl;//"schedule.html";
+			});
+			
+			var transid=$("#transid").val();
+			if(transid!=''){
+				open_tips();
+			}
+			
+			var url='{php echo json_encode($url);}';
+			//var urlList=JSON.parse(url);
+			$("#hs-wrapper").horizonMode({item:0,urlList:url});//,urlList:urlList
+		})
+
+		function showprovincelist() {
+			$("#provincelist").animate({
+				'height': 'toggle',
+				'opacity': 'toggle'
+			}, "fast");
+		}
+
+		function hide_select(){
+			$(".select_place").hide();
+		}
+		function hide_outbox(){
+			$("#outputBox").hide();
+		}
+		function chose_box(obj){
+			var stationname = $(obj).find("span").text().trim();
+			var stationcode = $(obj).find("span").attr("data-code");
+			$("#" + station_id).text(stationname);
+			$("#" + station_id).attr("stationcode", stationcode);
+			$("#" + station_id).addClass("fc333");
+			$(".boximg").attr("src","/addons/ticketorder/template/img/ic_@3x-65.png");
+			$(obj).find('img').attr("src","/addons/ticketorder/template/img/orange82@3x.png");
+			$("#outputBox").hide();
+		}
+		
+		function chose_provincelist(obj) {
+			$("#provincename").text($(obj).text().trim());
+			$(".p-default").removeClass("fcorange");
+			$(obj).addClass("fcorange");
+			var temp = $("#city_temp").html();
+			for(var k in citystr.data.Rows) {
+				var s = citystr.data.Rows[k];
+				if($(obj).attr("data-pcode") == s['ProvinceCode']) {
+					var vars = new Array();
+					var strz = ""
+					for(var j in s.Citys) {
+						var t = s.Citys[j];
+						vars["CityName"] = t['CityName'];
+						vars["CityCode"] = t['CityCode'];
+						var elm = replaceVars(temp, vars);
+						strz += elm;
+					}
+					$("#city").html(strz);
+				}
+			}
+			$(".select_place").hide();
+		}
+		
+		function checkweek(week){
+			if(week==1){
+			return	week="一";
+			}else if(week==2){
+			return	week="二";
+			}else if(week==3){
+			return	week="三";
+			}else if(week==4){
+			return	week="四";
+			}else if(week==5){
+			return	week="五";
+			}else if(week==6){
+			return	week="六";
+			}else if(week==7){
+			return	week="日";
+			}else if(week==0){
+			return	week="日";
+			}
+		}
+
+		function modalshow(StationCode) {
+			$(".mask").animate({
+				opacity: 'show'
+			}, "slow");
+			show_loading();
+			setTimeout(function(){
+				$(".station-all").animate({
+					opacity: 'show'
+				}, "slow");
+				hide_loading();
+			},1000);
+			var LineCode="";
+			var data={'op':'QueryStationDetail','StationCode':StationCode,'LineCode':LineCode};
+			post(data,function(stationstr){
+			var temp = $("#stationxq_temp").html();
+			var s = stationstr.data;
+			if(s==null){
+				closemodal();
+				return;
+			}
+			var vars = new Array();
+			vars["StationName"] = s['StationName'];
+			vars["StationDesp"] = s['StationDesp'];
+			var pic=s['Pic'];
+			vars["StationPic1"]="/web/resource/img/plactpic.png";
+			vars["StationPic2"]="/web/resource/img/plactpic.png";
+			if(pic[0]&& pic[0]['URL']){
+				vars["StationPic1"] = pic[0]['URL'];
+			}
+			if(pic[1]&& pic[1]['URL']){
+				vars["StationPic2"] = pic[1]['URL'];
+			}
+			vars["Longitude"] = s['Longitude'];
+			vars["Latitude"] = s['Latitude'];
+			var elm = replaceVars(temp, vars);
+			$("#stationxqlist").html(elm);
+			hide_loading();
+			$(".station-all").animate({
+				opacity: 'show'
+			}, "slow");
+			});
+		}
+
+		function closemodal() {
+			$(".mask").animate({
+				opacity: 'hide'
+			}, "slow");
+			$(".station-all").animate({
+				opacity: 'hide'
+			}, "slow");
+		}
+		function showsearch(){
+			location.href="#search";
+			$("#search").show();
+			$("#searchinput").focus();
+			$("#search-result").html('');
+			if(changeca==0){
+				$("#searchinput").attr("placeholder","城市名称/拼音/首字母");
+			}else{
+				$("#searchinput").attr("placeholder","目的地/拼音/首字母");
+			}
+			
+		}
+		
+		
+		
+		
+
+		//		初始化地图插件
+		function init_map() {
+			if(indexM == 0) {
+				map = new BMap.Map("search-map");
+				var point = new BMap.Point(113.315463, 23.416921);
+				map.centerAndZoom(point, 11);
+				map.setMapStyle({
+					style: 'googlelite'
+				})
+				trainsitmap2();
+			} else {
+				trainsitmap2();
+			}
+
+		}
+
+		function trainsitmap() {
+			init_map();
+			$("#search-map-main").show();
+			location.href = "#search";
+		}
+
+		function trainsitmap2() {
+			map.clearOverlays();
+			var geolocation = new BMap.Geolocation();
+			geolocation.getCurrentPosition(function(r) {
+				if(this.getStatus() == BMAP_STATUS_SUCCESS) {
+					var mk = new BMap.Marker(r.point);
+					map.addOverlay(mk);
+					map.panTo(r.point);
+					var station = $("#stationxy");
+					var locationy = station.attr("latitude");
+					var locationx = station.attr("longitude");
+					var name = station.attr("stationname");
+					var p1 = new BMap.Point(r.point.lng, r.point.lat);
+					var p2 = new BMap.Point(locationx, locationy);
+					var transit = new BMap.TransitRoute(map, {
+						renderOptions: {
+							map: map,
+							panel: "r-result"
+						},
+						onPolylinesSet: function() {
+							$("#r-result h1").html("我的位置 到 " + name + " 的路线");
+
+						}
+					});
+					transit.search(p1, p2);
+				} else {
+					alert('failed' + this.getStatus());
+				}
+			}, {
+				enableHighAccuracy: true
+			})
+			indexM = 1;
+		}
+
+		//		调换上下车点
+		function changeplace(obj) {
+			var id = $(obj).parents().eq(0).attr("id");
+			var tempname = $("#" + id + "-up").text();
+			var tempcode = $("#" + id + "-up").attr("stationcode").trim();
+			$("#" + id + "-up").text($("#" + id + "-down").text());
+			$("#" + id + "-up").attr("stationcode", $("#" + id + "-down").attr("stationcode"));
+			$("#" + id + "-down").text(tempname);
+			$("#" + id + "-down").attr("stationcode", tempcode);
+
+		}
+
+		//		切换选项卡
+		function selectmode(obj) {
+			var type=$(obj).attr("data-type");
+			//屏蔽
+			if(type!='intercity'){
+				return;
+			}
+			var mode = $(obj).attr("mode");
+			$(".w-33").removeClass("t-active");
+			$(obj).addClass("t-active");
+			$(".modechange").hide();
+			$("#" + mode).show();
+            $("#modetype").val(type);
+		}
+		
+        //历史记录
+		function histroyrecord(obj){
+			var startname=$(obj).children().eq(0).text();
+			var startcode=$(obj).children().eq(0).attr("data-histroystart");
+			var endname=$(obj).children().eq(2).text();
+			var endcode=$(obj).children().eq(2).attr("data-histroyend");
+			var id=$(".t-active").attr("mode");
+			$("#"+id+"-up").text(startname);
+			$("#"+id+"-down").text(endname);
+			$("#"+id+"-up").addClass("fc333");
+			$("#"+id+"-down").addClass("fc333");
+			$("#"+id+"-up").attr("stationcode",startcode);
+			$("#"+id+"-down").attr("stationcode",endcode);
+		}
+		
+		function getLocation() {
+		var options = {
+			enableHighAccuracy: true,
+			maximumAge: 1000
+		}
+		
+		if(navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
+		} else {
+			//alert('您的浏览器不支持地理位置定位');
+		}
+		}
+		
+		function onSuccess(position) {
+			var longitude = position.coords.longitude;
+			var latitude = position.coords.latitude;
+			var map = new BMap.Map("allmap");
+			var point = new BMap.Point(longitude, latitude);
+			var gc = new BMap.Geocoder();
+			gc.getLocation(point, function(rs) {
+				var addComp = rs.addressComponents;
+				//alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
+//					var id=$(".t-active").attr("mode");
+//					$("#"+id+"-up").text(addComp.district);
+//					$("#"+id+"-up").addClass("fc333");
+					$("#autolocation").text(addComp.city);
+			});
+			
+		}
+
+		function onError(error) {
+			switch(error.code) {
+				case 1:
+					//alert("位置服务被拒绝");
+					break;
+				case 2:
+					//alert("暂时获取不到位置信息");
+					break;
+				case 3:
+					//alert("获取信息超时");
+					break;
+				case 4:
+					//alert("未知错误");
+					break;
+			}
+		}
+		function hide_loading() {
+			setTimeout(function(){
+				$("#loading").hide();
+			},200);
+			
+		}
+
+		function show_loading() {
+			$("#loading").show();
+		}
+		function open_tips(){
+			$("#maskdiv").show();
+			$(".t_check").show();
+		}
+		function close_tips(){
+			$("#maskdiv").hide();
+			$(".t_check").hide();
+		}
+		
+		var index=0;
+		var nowvalue="";
+		var beforevalue="";
+		function searchcitybefore(obj){
+			if(index==0){
+				beforevalue=$(obj).val().trim();
+				index++;
+			}else{
+				nowvalue=$(obj).val().trim();
+				index=0;
+			}
+			if(beforevalue!=nowvalue){
+				setTimeout("searchcity()",500);
+			}
+		}
+		
+		function searchcity(){
+		var strz = ""
+		$("#search-result").html('');
+		var type = $(".t-active").attr("data-type");
+		var ExactStatus=type.firstUpperCase()+"ExactStatus";
+		var exactStatus=config['data'][ExactStatus];
+		var queryType=$("#direction").val();
+		var data={'op':'Search',code:'','queryType':queryType,'exactStatus':exactStatus};
+		if(changeca==0){
+			data['query']=$("#searchinput").val();
+			
+			post(data,function(search){
+				searchstationstr=search;
+				if(searchstationstr.result==""){
+					var temp = $("#searchnoresult").html();
+						$("#search-result").html(temp);
+				}else{
+				var temp = $("#city_temp").html();
+				for(var i in searchstationstr.result){
+					var s = searchstationstr.result[i];
+					var vars = new Array();	
+					vars["CityName"] = s['name'];
+					vars["CityCode"] = s['code'];
+					var elm = replaceVars(temp, vars);
+					strz += elm;
+				}
+				$("#search-result").html(strz);
+				}
+			})
+			
+		}else{
+			data['query']=$("#searchinput").val();
+			$("#searchinput").attr("placeholder","目的地/拼音/首字母");
+			var id=$(".t-active").attr("mode");
+			var OriginCode=$("#"+id+"-up").attr('stationcode');
+			data['code']=OriginCode;
+			post(data,function(search){
+				searchstationstr=search;
+				if(searchstationstr.result==""){
+					var temp = $("#searchnoresult").html();
+						$("#search-result").html(temp);
+				}else{
+				var temp = "";
+				for(var i in searchstationstr.result){
+					var s = searchstationstr.result[i];
+					var vars = new Array();	
+					var elm="";
+					if(s.type==2){
+						vars["CityName"] = s['name'];
+						vars["CityCode"] = s['code'];
+						temp = $("#city_temp").html();
+						elm = replaceVars(temp, vars);
+					}else{
+						vars["name"] = s['name'];
+						vars["code"] = s['code'];
+						vars["region"] = s['region'];
+						temp = $("#searchstation_temp").html();
+						elm = replaceVars(temp, vars);
+					}
+					strz += elm;
+				}
+				$("#search-result").html(strz);
+				}
+			})
+			
+		}
+			
+				
+	}
+	
+	function searchqd(obj){
+		var stationname=$(obj).children().eq(0).text();
+		var stationcode=$(obj).children().eq(0).attr("data-code");
+		$("#" + station_id).text(stationname);
+		$("#" + station_id).attr("stationcode", stationcode);
+		$("#" + station_id).addClass("fc333");
+		$("#p-city").addClass("no-display");
+		$("#search").hide();
+	}
+	
+	
+	function on_area(obj){
+			var dcode=$(obj).attr("data-dcode");
+			$(".a-default").removeClass("fcorange");
+			$(obj).addClass("fcorange");
+			$("#station").html("");
+			var temp = $("#station_temp").html();
+			if(dcode=="all"){
+				for(var q in areastr.data.Rows){
+					var z = areastr.data.Rows[q];
+					var vars = new Array();
+					var strz = "";
+					if(z&&z.Stations){
+					for(var o in z.Stations) {
+						var t = z.Stations[o];
+						if(t['StationCode']==""){
+							continue;
+						}
+						vars["StationName"] = t['StationName'];
+						vars["StationCode"] = t['StationCode'];
+						vars['real']="sort_list"
+						var elm = replaceVars(temp, vars);
+						strz += elm;
+					}}
+					$("#station").append(strz);
+				}
+			
+			}else{
+				for(var q in areastr.data.Rows){
+					var z = areastr.data.Rows[q];
+					var vars = new Array();
+					var strz = "";
+					if(z.DistrictCode==dcode){
+						if(z&&z.Stations){
+							for(var o in z.Stations) {
+								var t = z.Stations[o];
+								if(t['StationCode']==""){
+									continue;
+								}
+								vars["StationName"] = t['StationName'];
+								vars["StationCode"] = t['StationCode'];
+								vars['real']="sort_list"
+								var elm = replaceVars(temp, vars);
+								strz += elm;
+							}
+						}
+					}
+					$("#station").append(strz);
+					
+				}
+				
+			}
+			var areaname = $(obj).text();
+			$("#areaName").text(areaname);
+			initials();
+			$(".select_place").hide();
+		}
+		
+		
+		function on_station(obj){
+			var stationname = $(obj).children('span').text().trim();
+			var stationcode = $(obj).children('span').attr("data-code").trim();
+			$("#" + station_id).text(stationname);
+			$("#" + station_id).attr("stationcode", stationcode);
+			$("#" + station_id).addClass("fc333");
+			$("#p-city").addClass("no-display");
+			$("#c-area").addClass("no-display");
+			$("#search").hide();
+			location.href = "#";
+		}
+		
+		function choseHotCity(obj){
+			var stationname = $(obj).children('span').text().trim();
+			var stationcode = $(obj).children('span').attr("data-code").trim();
+			$("#" + station_id).text(stationname);
+			$("#" + station_id).attr("stationcode", stationcode);
+			$("#" + station_id).addClass("fc333");
+			$("#p-city").addClass("no-display");
+			location.href = "#";
+		}
+	
+	
+	
+	
+	</script>
+	
+	<script>
+	String.prototype.firstUpperCase = function(){
+	    return this.replace(/\b(\w)(\w*)/g, function($0, $1, $2) {
+	        return $1.toUpperCase() + $2.toLowerCase();
+	    });
+	}
+		function post(data, cb) {
+			var url = "{php echo $this->createMobileUrl('ticketcenter', array( 'style' => $style,'linksource' => $linksource,'sourceparams' => $sourceparams,'scenetype' => $scenetype,'scenesn' => $scenesn),true)}";   
+			data['Type']=$("#modetype").val();
+			$.ajax({
+				// headers: {'Cookie' : document.cookie },
+				type : 'POST',
+				url : url,
+				data : data,
+				async : false,
+				success : function(d) {
+					// alert(type+d);
+					var jsondata = JSON.parse(d);
+					if(jsondata['Success']||jsondata['resultCode']==0){
+						cb(jsondata);
+					}
+				}
+	
+			});
+		}
+		
+		
+	</script>
+	
+	<script>
+//	定位代码
+	 var geolocation = new BMap.Geolocation(); 
+        geolocation.getCurrentPosition(function (r) {  
+        	
+            if (this.getStatus() == BMAP_STATUS_SUCCESS) {  
+                var mk = new BMap.Marker(r.point);  
+                currentLat = r.point.lat;  
+                currentLon = r.point.lng;    
+                var depot=$("#depot").val();
+            	if(depot!=''){
+            		return;
+            	}
+                    var pt = new BMap.Point(currentLon, currentLat);  
+                    var geoc = new BMap.Geocoder();  
+                    geoc.getLocation(pt, function (rs) {  
+                        var addComp = rs.addressComponents;                   
+                        var city = addComp.city;  
+                        var addComp = rs.addressComponents;  
+                        var texts = addComp.district + "-" + addComp.street + "-" + addComp.streetNumber;  
+                         province=addComp.province.replace("省","").trim();
+                        
+                    	var id=$(".t-active").attr("mode");
+    					$("#"+id+"-up").text(addComp.city);
+   					    $("#"+id+"-up").addClass("fc333");
+   					    $("#"+id+"-up").attr('stationcode',region[encodeURIComponent(addComp.city.replace("市",""))]);
+				        $("#autolocation").text(addComp.city);
+            })
+                   }
+         })
+	
+</script>
+
+</html>

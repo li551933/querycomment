@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+		<title>评价反馈</title>
+		<link href="../resource/css/common.css" rel="stylesheet" />
+		<script src="../resource/js/jquery-2.2.0.js"></script>
+	</head>
+
+		<style>
+		 #submitBtn {
+			 width: 100%;
+			 height: 50px;
+			 line-height: 50px;
+			 color: white;
+			 text-align: center;
+			 position: fixed;
+			 bottom: 0px;
+		 }
+		#tips {
+			position: fixed;
+			top: 0;
+			display: none;
+		}
+		
+		#submitBox {
+			width: 80%;
+			height: 150px;
+			background: white;
+			position: fixed;
+			z-index: 100000;
+			top: 50%;
+			left: 10%;
+			margin-top: -75px;
+			border-radius: 10px;
+		}
+		
+		#starList {
+			width: 200px;
+			margin: 40px auto;
+		}
+	</style>
+
+	<body class="bc-f4">
+		<div class="bc-white h-150x">
+			<div class="h-40x">
+				<div class="text-center fc666 bc-white w-80x m-a p-r t-10x">总体评分</div>
+				<hr width="60%" class="m-a" />
+				<div class="text-center m-t-10x" id="generalComment"></div>
+			</div>
+			<div id="starList">
+				<img src="../resource/img/star_normal.png" width="30px" height="30px" class="fl-l m-r-10x star" score="1" onclick="staron(this)" />
+				<img src="../resource/img/star_normal.png" width="30px" height="30px" class="fl-l m-r-10x star" score="2" onclick="staron(this)" />
+				<img src="../resource/img/star_normal.png" width="30px" height="30px" class="fl-l m-r-10x star" score="3" onclick="staron(this)" />
+				<img src="../resource/img/star_normal.png" width="30px" height="30px" class="fl-l m-r-10x star" score="4" onclick="staron(this)" />
+				<img src="../resource/img/star_normal.png" width="30px" height="30px" class="fl-l m-r-10x star" score="5" onclick="staron(this)" />
+			</div>
+		</div>
+		<div class="p-10x bc-white m-t-10x">
+			<div class="h-30x l-h-30x">您的支持是我们的动力</div>
+			<div class="border-1c p-r ">
+				<textarea id="status" name="status" class="border-0 w-100 fs-16" maxlength="100" placeholder="请输入您的意见" rows="6" cols="40" onkeydown='countChar()' onkeyup='countChar()'></textarea>
+				<div class="p-a r-10x b-0"><span id="counter">0</span>/100字</div>
+			</div>
+			<div class="m-b-10x overflow-a">
+				<div class="border-1c text-center p-lr-10x h-30x l-h-30x fl-l m-r-10x m-t-10x fc666" onclick="add_text(this)">车厢干净</div>
+				<div class="border-1c text-center p-lr-10x h-30x l-h-30x fl-l m-r-10x m-t-10x fc666" onclick="add_text(this)">司机态度好</div>
+				<div class="border-1c text-center p-lr-10x h-30x l-h-30x fl-l m-r-10x m-t-10x fc666" onclick="add_text(this)">只点赞不说话</div>
+
+			</div>
+
+			<div id="imgList" class="h-80x">
+				<div id="upload" class="fl-l">
+					<img src="../resource/img/add_img.png" width="60px" height="60px" onclick="addimg()" />
+					<input id="file_upload" type="file" accept="image/*" class="no-display">
+					<div class="fc333 fs-14 text-center">上传图片</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div id="submitBtn" class="bc-orange submit-disabled" onclick="submitTo(this)">提交</div>
+		<div id="tips">
+			<div class="black-mask"></div>
+			<div id="submitBox">
+				<div class="h-50x l-h-50x text-center">提交成功</div>
+				<div class="text-center fc666 l-h-50x">感谢您的反馈</div>
+				<div class="p-a b-0 b-t-1 text-center w-100 fcorange h-40x l-h-40x" onclick="hide_tips()">好的</div>
+			</div>
+
+		</div>
+
+		<div id="img_temp" class="no-display">
+			<div class="fl-l p-r">
+				<img src="../resource/img/close.png" width="15px" height="15px" class="p-a r--5x t--5x" onclick="removeImg(this)" />
+				<img id="img_{imgid}" src="" width="60px" height="60px" />
+			</div>
+		</div>
+
+	</body>
+	<script>
+		var commentList = ['差', '中等', '好', '很好', '非常好'];
+		var imgid = 1;
+		var flag = false;
+
+		$(function() {
+			$("#file_upload").change(function() {
+				$("#upload").hide();
+				var temp = $("#img_temp").html();
+				var vars = new Array();
+				vars["imgid"] = imgid;
+				var elm = replaceVars(temp, vars);
+				$("#imgList").prepend(elm);
+				var $file = $(this);
+				var fileObj = $file[0];
+				var windowURL = window.URL || window.webkitURL;
+				var dataURL;
+				var $img = $("#img_" + imgid++);
+
+				if(fileObj && fileObj.files && fileObj.files[0]) {
+					dataURL = windowURL.createObjectURL(fileObj.files[0]);
+					$img.attr('src', dataURL);
+				} else {
+					dataURL = $file.val();
+					var imgObj = document.getElementById("preview");
+					// 两个坑:
+					// 1、在设置filter属性时，元素必须已经存在在DOM树中，动态创建的Node，也需要在设置属性前加入到DOM中，先设置属性在加入，无效；
+					// 2、src属性需要像下面的方式添加，上面的两种方式添加，无效；
+					imgObj.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+					imgObj.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = dataURL;
+
+				}
+
+			});
+		})
+
+		function countChar() {
+			$("#counter").html($("#status").val().length);
+			if($("#status").val().length > 0 && flag) {
+				$("#submitBtn").removeClass("submit-disabled");
+			} else {
+				$("#submitBtn").addClass("submit-disabled");
+			}
+		}
+
+		function addimg() {
+			$("#file_upload").click();
+		}
+
+		function replaceVars(text, params) {
+			for(p in params) {
+				text = text.replace(new RegExp("\{" + p + "?\}", "g"), params[p]);
+			}
+			return text;
+		}
+
+		function removeImg(obj) {
+			$(obj).parent().remove();
+			$("#upload").show();
+		}
+
+		function submitTo(obj) {
+			if(!$(obj).hasClass("submit-disabled") && flag) {
+				$("#tips").show();
+			} else {
+				alert("还有未评价内容");
+			}
+		}
+
+		function hide_tips() {
+			$("#tips").hide();
+			location.href = "queryresult.html";
+		}
+
+		function staron(obj) {
+			$(".star").attr("src", "../resource/img/star_normal.png");
+			var score = $(obj).attr("score");
+			for(var i = 0; i < score; i++) {
+				$($(".star")[i]).attr("src", "../resource/img/star_select.png");
+			}
+			$("#generalComment").text(commentList[score - 1]);
+			flag = true;
+			countChar();
+		}
+
+		function add_text(obj) {
+			$("#status").val($(obj).text());
+			countChar();
+		}
+	</script>
+
+</html>

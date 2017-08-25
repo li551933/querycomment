@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+		<title>车牌号码查询</title>
+		<link href="../resource/css/common.css" rel="stylesheet" />
+		<script src="../resource/js/jquery-2.2.0.js"></script>
+	</head>
+	<style>
+		#chose_typeid {
+			width: 100%;
+			height: 100%;
+			position: fixed;
+			z-index: 10000;
+			top: 0;
+			display: none;
+		}
+		
+		#queryBox {
+			height: 200px;
+			width: 90%;
+			background: white;
+			border-radius: 5px;
+			box-shadow: 0px 0px 2px #ccc;
+			margin-left: 5%;
+			margin-top: 100px;
+		}
+	</style>
+
+	<body class="bc-f4">
+		<div id="queryBox">
+			<div class="h-20x"></div>
+			<div class="text-center l-h-50x">
+				<img src="../resource/img/car_no.png" width="25px" height="15px"><span class="fs-20 m-l-5x">车牌号码</span>
+			</div>
+			<div class="p-10x m-t-10x">
+				<div class="w-30 fl-l">
+					<div class="w-80x h-40x l-h-40x bc-f4 m-a" >
+						<span class="m-l-20x m-r-10x" >粤</span>
+						<!--<img src="../resource/img/down.png" width="15px" height="10px">-->
+					</div>
+				</div>
+				<div class="w-30 fl-l">
+					<div class="w-80x h-40x l-h-40x bc-f4 m-a" onclick="open_chose(this)">
+						<span class="m-l-20x m-r-10x" id="typeLabel" typeid="1">A</span>
+						<img src="../resource/img/down.png" width="15px" height="10px">
+					</div>
+				</div>
+				<div class="w-40 fl-l">
+					<input id="carNo" class="h-40x bc-f4 w-100x m-a dis-b border0 text-center fs-16" />
+				</div>
+			</div>
+		</div>
+		<div class="middlebtn" onclick="href()">
+			查询
+		</div>
+
+		<div id="chose_typeid">
+			<div class="black-mask" onclick="cancel_type()"></div>
+			<div class="bc-white p-a b-0 w-100 z-10010 maxh-210x overflow-a">
+				<div class="ty_id h-40x l-h-40x b-t-1 text-center fc333" typeid="1" onclick="select_type(this)">A</div>
+				<div class="ty_id h-40x l-h-40x b-t-1 text-center fc333" typeid="2" onclick="select_type(this)">B</div>
+				<div class="ty_id h-40x l-h-40x b-t-1 text-center fc333" typeid="3" onclick="select_type(this)">C</div>
+				<div class="ty_id h-40x l-h-40x b-t-1 text-center fc333" typeid="4" onclick="select_type(this)">D</div>
+				<div class="ty_id h-40x l-h-40x b-t-1 text-center fc333" typeid="5" onclick="select_type(this)">E</div>
+				<div class="ty_id h-40x l-h-40x b-t-1 text-center fc333" typeid="6" onclick="select_type(this)">F</div>
+				<div class="ty_id h-40x l-h-40x b-t-1 text-center fc333" typeid="7" onclick="select_type(this)">G</div>
+			</div>
+		</div>
+
+	</body>
+	<script>
+		function open_chose() {
+			$("#chose_typeid").show();
+			var typeid = $("#typeLabel").attr("typeid");
+			var txt = $("#typeLabel").text().trim();
+			var arr = $(".ty_id");
+			for(var i = 0; i < arr.length; i++) {
+				if(arr[i].innerText == txt) {
+					$(arr[i]).addClass("fcorange");
+				} else {
+					$(arr[i]).removeClass("fcorange");
+				}
+			}
+		}
+
+		function cancel_type() {
+			$("#chose_typeid").hide();
+		}
+
+		function select_type(obj) {
+			var typeid = $(obj).attr("typeid");
+			var txt = $(obj).text();
+			$("#typeLabel").attr("typeid", typeid);
+			$("#typeLabel").text(txt);
+			$("#chose_typeid").hide();
+		}
+
+		function href() {
+			if($("#carNo").val()=="96900" && $("#typeLabel").attr("typeid")=="1"){
+				location.href = "queryresult.html";
+			}else{
+				alert("暂无该车辆数据");
+			}
+		}
+	</script>
+
+</html>
